@@ -362,6 +362,8 @@ const getFreelancerReviews = async (req, res) => {
   try {
     if ( !req.freelancer || !req.client ) { return res.status(401).send({ errorMessage: 'User cannot access this route' }) }
     const  id  = req.params.id
+    if ( !mongoose.isValidObjectId( id ) ) 
+    { return res.status(401).send ( { errorMessage: `Enter valid id` } ) }
 
     const FreelancerExists = await Freelancer.findById ( id );
     if( ! FreelancerExists )  return res.status(401).send( { errorMessage: 'Unauthorized' } );
@@ -418,6 +420,8 @@ const getClientReviews = async (req, res) => {
   try {
     if ( !req.freelancer || !req.client ) { return res.status(401).send({ errorMessage: 'User cannot access this route' }) }
     const  id  = req.params.id
+    if ( !mongoose.isValidObjectId( id ) ) 
+    { return res.status(401).send ( { errorMessage: `Enter valid id` } ) }
 
     const CLientExists = await Client.findById ( id );
     if( ! CLientExists )  return res.status(401).send( { errorMessage: 'Unauthorized' } );
@@ -434,6 +438,8 @@ const getFreelancerReoprt = async (req, res) => {
   try {
     if ( !req.freelancer || !req.client ) { return res.status(401).send({ errorMessage: 'User cannot access this route' }) }
     const  id  = req.params.id
+    if ( !mongoose.isValidObjectId( id ) ) 
+    { return res.status(401).send ( { errorMessage: `Enter valid id` } ) }
 
     const FreelancerExists = await Freelancer.findById ( id );
     if( !FreelancerExists )  return res.status(401).send( { errorMessage: 'Unauthorized' } );
@@ -451,6 +457,8 @@ const getClientReoprt = async (req, res) => {
   try {
     if ( !req.freelancer || !req.client ) { return res.status(401).send({ errorMessage: 'User cannot access this route' }) }
     const  id  = req.params.id
+    if ( !mongoose.isValidObjectId( id ) ) 
+    { return res.status(401).send ( { errorMessage: `Enter valid id` } ) }
 
     const ClientExists = await Client.findById ( id );
     if( !ClientExists )  return res.status(401).send( { errorMessage: 'Unauthorized' } );
@@ -458,6 +466,26 @@ const getClientReoprt = async (req, res) => {
     const getReport = await ReportsClient.find( { client: id } ).populate ( 'client' )
 
     return res.status(200).send(getReport)
+  }
+  catch (error) { console.log(error) }
+}
+
+
+//  get Order by id
+const getOrder = async (req, res) => {
+  try {
+    if ( !req.freelancer || !req.client ) { return res.status(401).send({ errorMessage: 'User cannot access this route' }) }
+    const  id  = req.params.id
+
+    if ( !mongoose.isValidObjectId( id ) ) {
+    return res.status(401).send({errorMessage: `Enter valid id`})
+    }
+
+    const getOrder = await Orders.findById( id ).populate( 'freelancer' ).populate ( 'client' )
+
+    if ( !getOrder ) return res.status(404).send ( { errorMessage: `No Order found with id: ${ id } ` } )
+
+    return res.status(200).send (  getOrder  )
   }
   catch (error) { console.log(error) }
 }
@@ -476,5 +504,6 @@ module.exports = {
   getFreelancerReviews,
   getClientReviews,
   getFreelancerReoprt,
-  getClientReoprt
+  getClientReoprt,
+  getOrder
 }

@@ -15,7 +15,8 @@ const {
   ReviewsClient,
   getClientReviews,
   getFreelancerReoprt,
-  getClientReoprt
+  getClientReoprt,
+  getOrder
  } = require("../controllers/gig.controller");
 
 const multer  = require('multer')
@@ -97,6 +98,10 @@ router.route('/getFreelancerReoprt/:id').get(protect, getFreelancerReoprt)
 
 //  get Client Report
 router.route('/getClientReoprt/:id').get(protect, getClientReoprt)
+
+
+//  Get Order by id
+router.route('/getOrder/:id').get(protect, getOrder)
 
 
 module.exports = router;

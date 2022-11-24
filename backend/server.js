@@ -35,7 +35,7 @@ app.use("/api", require("./routes/notifications.Routes"));
 
 
 app.get('/', (req, res) => {
-  res.send('hello hamza')
+  res.send('Welcome Osama')
 })
 
 

@@ -106,7 +106,7 @@ router.route("/verify-token").get(isResetTokenValid, resetPassword);
 
 router
   .route("/:id")
-  .get(protect, getOneFreelancer)
+  .get( protect, getOneFreelancer)
   .put(protect, updateFreelancerAccount)
   .delete(protect, deleteFreelancer);
 
